@@ -1,0 +1,10 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: order-query-server
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/order_query_db

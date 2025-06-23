@@ -1,0 +1,23 @@
+server:
+  port: 8091
+
+
+spring:
+  application:
+    name: order-command-server
+  datasource:
+    url: jdbc:mariadb://localhost:3307/order_command_db
+    username: root
+    password: 1234
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # create, create-drop, update, validate, none ? ??
+    show-sql: true        # ??? SQL ?? ??
+    properties:
+      hibernate:
+        format_sql: true
+
+  kafka:
+    bootstrap-servers: localhost:8099
