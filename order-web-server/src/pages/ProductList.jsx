@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import Layout from "../components/Layout";
 
+const HOST = import.meta.env.VITE_ORDER_COMMAND_SERVER_HOST;
+const PORT = import.meta.env.VITE_ORDER_COMMAND_SERVER_PORT_OUT;
+const BASE_URL = `http://${HOST}:${PORT}`;
+
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +14,7 @@ function ProductList() {
   const { userId } = useUser();
 
   useEffect(() => {
-    fetch("http://localhost:8091/api/products")
+    fetch(`${BASE_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -38,14 +42,11 @@ function ProductList() {
     }
 
     try {
-      const res = await fetch(
-        `http://localhost:8091/api/carts/users/${userId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId, quantity }),
-        }
-      );
+      const res = await fetch(`${BASE_URL}/api/carts/users/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, quantity }),
+      });
 
       if (res.ok) {
         alert("장바구니에 담았습니다.");

@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import Layout from "../components/Layout";
 
+const HOST = import.meta.env.VITE_ORDER_COMMAND_SERVER_HOST;
+const PORT = import.meta.env.VITE_ORDER_COMMAND_SERVER_PORT_OUT;
+const BASE_URL = `http://${HOST}:${PORT}`;
+
 function Cart() {
   const { userId } = useUser();
   const [items, setItems] = useState([]);
@@ -28,7 +32,7 @@ function Cart() {
     };
 
     try {
-      const res = await fetch("http://localhost:8091/api/orders", {
+      const res = await fetch(`${BASE_URL}/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderPayload),
@@ -49,9 +53,7 @@ function Cart() {
   const fetchCartItems = async () => {
     try {
       setLoading(true);
-      const res = await fetch(
-        `http://localhost:8091/api/carts/users/${userId}`
-      );
+      const res = await fetch(`${BASE_URL}/api/carts/users/${userId}`);
       const data = await res.json();
       setItems(data);
     } catch (e) {
@@ -64,7 +66,7 @@ function Cart() {
   const handleQuantityChange = async (itemId, newQuantity) => {
     try {
       await fetch(
-        `http://localhost:8091/api/carts/users/${userId}/cart-items/${itemId}`,
+        `${BASE_URL}/api/carts/users/${userId}/cart-items/${itemId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -80,7 +82,7 @@ function Cart() {
   const handleDelete = async (itemId) => {
     try {
       await fetch(
-        `http://localhost:8091/api/carts/users/${userId}/cart-items/${itemId}`,
+        `${BASE_URL}/api/carts/users/${userId}/cart-items/${itemId}`,
         {
           method: "DELETE",
         }
