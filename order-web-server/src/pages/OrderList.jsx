@@ -6,7 +6,7 @@ function OrderList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8090/api/orders")
+    fetch("http://localhost:8091/api/orders")
       .then((res) => res.json())
       .then((data) => {
         setOrders(data);
