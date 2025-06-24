@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 
+const HOST = import.meta.env.VITE_ORDER_COMMAND_SERVER_HOST;
+const PORT = import.meta.env.VITE_ORDER_COMMAND_SERVER_PORT_OUT;
+const BASE_URL = `http://${HOST}:${PORT}`;
+
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8091/api/orders")
+    fetch(`${BASE_URL}/api/orders`)
       .then((res) => res.json())
       .then((data) => {
         setOrders(data);
@@ -68,7 +72,6 @@ function OrderList() {
                     <td style={tdStyle}>{totalPrice.toLocaleString()}원</td>
                   </tr>
 
-                  {/* 상세 상품 */}
                   <tr>
                     <td
                       colSpan="5"
