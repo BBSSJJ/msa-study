@@ -12,9 +12,38 @@ function Cart() {
     fetchCartItems();
   }, [userId]);
 
-  const handleOrder = () => {
-    console.log("🛒 주문 요청 준비됨!");
-    // 추후 POST /api/orders 요청 추가
+  const handleOrder = async () => {
+    if (!userId || items.length === 0) {
+      alert("주문할 항목이 없습니다.");
+      return;
+    }
+
+    const orderPayload = {
+      userId: Number(userId),
+      items: items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+    };
+
+    try {
+      const res = await fetch("http://localhost:8091/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (res.ok) {
+        alert("주문이 완료되었습니다!");
+        setItems([]); // 장바구니 비우기
+      } else {
+        alert("주문 실패: " + res.status);
+      }
+    } catch (e) {
+      console.error("주문 요청 실패:", e);
+      alert("서버와 통신 중 오류 발생");
+    }
   };
 
   const fetchCartItems = async () => {
