@@ -4,6 +4,7 @@ import com.exmaple.ordercommandserver.dto.CreateOrderDto;
 import com.exmaple.ordercommandserver.entity.Item;
 import com.exmaple.ordercommandserver.entity.Order;
 import com.exmaple.ordercommandserver.entity.User;
+import com.exmaple.ordercommandserver.message.NewOrderMessage;
 import com.exmaple.ordercommandserver.repository.OrderCommandRepository;
 import com.exmaple.ordercommandserver.repository.ProductRepository;
 import com.exmaple.ordercommandserver.repository.UserRepository;
@@ -21,6 +22,7 @@ public class OrderCommandService {
     private final OrderCommandRepository orderCommandRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final KafkaProducerService kafkaProducerService;
 
     public void createOrder(CreateOrderDto createOrderDto) {
         String orderId = UUID.randomUUID().toString();
@@ -40,6 +42,8 @@ public class OrderCommandService {
                         .build()).toList();
 
         order.addItems(items);
+
+        kafkaProducerService.sendOrder(new NewOrderMessage(order));
 
         orderCommandRepository.save(order);
     }

@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ItemDto {
     private Long productId;
+    private String productName;
     private int quantity;
     private int price;
 
     public ItemDto(Item item) {
-        this.productId = item.getId();
+        this.productId = item.getProduct().getId();
+        this.productName = item.getProduct().getName();
         this.quantity = item.getQuantity();
         this.price = item.getPrice();
     }
