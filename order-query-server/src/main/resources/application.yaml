@@ -11,3 +11,13 @@ spring:
   data:
     mongodb:
       uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT_OUT}/${MONGODB_DATABASE}
+
+  kafka:
+    bootstrap-servers: localhost:9092
+#    consumer:
+#      group-id: order-consumer-group
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring.json.trusted.packages: "*"
+#        spring.json.value.default.type: com.example.orderqueryserver.message.NewOrderMessage

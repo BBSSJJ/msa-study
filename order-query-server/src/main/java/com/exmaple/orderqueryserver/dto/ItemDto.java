@@ -1,6 +1,6 @@
-package com.exmaple.ordercommandserver.dto;
+package com.exmaple.orderqueryserver.dto;
 
-import com.exmaple.ordercommandserver.entity.Item;
+import com.exmaple.orderqueryserver.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +15,8 @@ public class ItemDto {
     private int price;
 
     public ItemDto(Item item) {
-        this.productId = item.getProduct().getId();
-        this.productName = item.getProduct().getName();
+        this.productId = item.getProductId();
+        this.productName = item.getProductName();
         this.quantity = item.getQuantity();
         this.price = item.getPrice();
     }

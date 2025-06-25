@@ -18,7 +18,7 @@ import java.util.List;
 public class Order {
     @Id
     private String id;
-    private String userId;
+    private Long userId;
     private String userName;
     private List<Item> items;
     private LocalDateTime createdAt;
