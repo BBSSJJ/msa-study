@@ -5,6 +5,7 @@ import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import OrderList from "./pages/OrderList";
+import OrderListQuery from "./pages/OrderListQuery";
 import Cart from "./pages/Cart";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/orders" element={<OrderList />} />
+          <Route path="/orders/query" element={<OrderListQuery />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>
       </BrowserRouter>

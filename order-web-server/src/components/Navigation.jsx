@@ -26,6 +26,11 @@ function Navigation() {
         <NavTab to="/" label="🏠 홈" isActive={isActive} />
         <NavTab to="/products" label="상품 목록" isActive={isActive} />
         <NavTab to="/orders" label="주문 목록" isActive={isActive} />
+        <NavTab
+          to="/orders/query"
+          label="주문 목록 (Query)"
+          isActive={isActive}
+        />
       </div>
 
       {/* 오른쪽 */}
