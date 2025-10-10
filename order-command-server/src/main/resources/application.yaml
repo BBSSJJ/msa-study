@@ -1,5 +1,5 @@
 server:
-  port: ${ORDER_COMMAND_SERVER_PORT_IN}
+  port: 8080
 
 spring:
   application:
