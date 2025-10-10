@@ -1,5 +1,5 @@
 server:
-  port: ${ORDER_QUERY_SERVER_PORT_IN}
+  port: 8081
 
 spring:
   application:
@@ -10,10 +10,10 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT_OUT}/${MONGODB_DATABASE}
+      uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
 #    consumer:
 #      group-id: order-consumer-group
 #      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
