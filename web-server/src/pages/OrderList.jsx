@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 const HOST = import.meta.env.VITE_ORDER_COMMAND_SERVER_HOST;
 const PORT = import.meta.env.VITE_ORDER_COMMAND_SERVER_PORT_OUT;
 // const BASE_URL = `http://${HOST}:${PORT}`;
-const BASE_URL = `http://myapp.local:9999`;
+const BASE_URL = `http://myapp.order.command:9999`;
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
