@@ -4,14 +4,13 @@ server:
 spring:
   application:
     name: order-command-server
-
   config:
     import: optional:file:.env[.properties]
 
   datasource:
     url: jdbc:mariadb://${MARIADB_HOST}:${MARIADB_PORT}/${MARIADB_DATABASE}
-    username: ${MARIADB_USERNAME}
-    password: ${MARIADB_PASSWORD}
+    username: ${MARIADB_USER}
+    password: ${MARIADB_ROOT_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
@@ -23,7 +22,7 @@ spring:
         format_sql: true
 
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

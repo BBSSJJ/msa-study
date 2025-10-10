@@ -13,7 +13,7 @@ spring:
       uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}
 
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
 #    consumer:
 #      group-id: order-consumer-group
 #      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
