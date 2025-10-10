@@ -1,19 +1,47 @@
-name: CI pipeline
+name: Build and Push
 
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - "order-command-server/**"
-      - "order-query-server/**"
-      - "web-server/**"
+  workflow_dispatch: # 수동 실행도 허용
 
 jobs:
-  build-order-command:
-    if: contains(github.event.head_commit.message, 'order-command-server') || contains(toJson(github.event.commits.*.modified), 'order-command-server/')
+  # -------------------------------
+  # 1. 변경된 디렉토리 감지
+  # -------------------------------
+  detect-changes:
+    name: Detect changed services
     runs-on: ubuntu-latest
+    outputs:
+      command: ${{ steps.filter.outputs.command }}
+      query: ${{ steps.filter.outputs.query }}
+      web: ${{ steps.filter.outputs.web }}
     steps:
       - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect folder changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            command:
+              - 'order-command-server/**'
+            query:
+              - 'order-query-server/**'
+            web:
+              - 'web-server/**'
+
+  # -------------------------------
+  # 2. order-command-server 빌드 & 푸시
+  # -------------------------------
+  build-command:
+    name: Build order-command-server
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.command == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -22,18 +50,25 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push order-command-server
+      - name: Build & Push order-command-server
         uses: docker/build-push-action@v6
         with:
           context: ./order-command-server
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/order-command-server:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/order-command-server:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/order-command-server:${{ github.sha }}
 
-  build-order-query:
-    if: contains(toJson(github.event.commits.*.modified), 'order-query-server/')
+  # -------------------------------
+  # 3. order-query-server 빌드 & 푸시
+  # -------------------------------
+  build-query:
+    name: Build order-query-server
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.query == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -42,18 +77,25 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push order-query-server
+      - name: Build & Push order-query-server
         uses: docker/build-push-action@v6
         with:
           context: ./order-query-server
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/order-query-server:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/order-query-server:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/order-query-server:${{ github.sha }}
 
+  # -------------------------------
+  # 4. web-server 빌드 & 푸시
+  # -------------------------------
   build-web:
-    if: contains(toJson(github.event.commits.*.modified), 'web-server/')
+    name: Build web-server
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.web == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -62,9 +104,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push web-server
+      - name: Build & Push web-server
         uses: docker/build-push-action@v6
         with:
           context: ./web-server
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/web-server:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/web-server:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/web-server:${{ github.sha }}
