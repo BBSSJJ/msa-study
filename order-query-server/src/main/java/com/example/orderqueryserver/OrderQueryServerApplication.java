@@ -1,4 +1,4 @@
-package com.exmaple.orderqueryserver;
+package com.example.orderqueryserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

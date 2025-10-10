@@ -1,7 +1,7 @@
-package com.exmaple.orderqueryserver.service;
+package com.example.orderqueryserver.service;
 
-import com.exmaple.orderqueryserver.dto.OrderQueryDto;
-import com.exmaple.orderqueryserver.repository.OrderQueryRepository;
+import com.example.orderqueryserver.dto.OrderQueryDto;
+import com.example.orderqueryserver.repository.OrderQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

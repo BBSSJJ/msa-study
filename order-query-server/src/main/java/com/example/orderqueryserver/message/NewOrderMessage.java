@@ -1,6 +1,6 @@
-package com.exmaple.orderqueryserver.message;
+package com.example.orderqueryserver.message;
 
-import com.exmaple.orderqueryserver.dto.ItemDto;
+import com.example.orderqueryserver.dto.ItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

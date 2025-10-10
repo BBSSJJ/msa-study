@@ -1,6 +1,6 @@
-package com.exmaple.orderqueryserver.global;
+package com.example.orderqueryserver.global;
 
-import com.exmaple.orderqueryserver.message.NewOrderMessage;
+import com.example.orderqueryserver.message.NewOrderMessage;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;

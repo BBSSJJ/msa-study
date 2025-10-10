@@ -1,7 +1,7 @@
-package com.exmaple.orderqueryserver.dto;
+package com.example.orderqueryserver.dto;
 
-import com.exmaple.orderqueryserver.entity.Item;
-import com.exmaple.orderqueryserver.entity.Order;
+import com.example.orderqueryserver.entity.Item;
+import com.example.orderqueryserver.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

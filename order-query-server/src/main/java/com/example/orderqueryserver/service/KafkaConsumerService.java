@@ -1,9 +1,9 @@
-package com.exmaple.orderqueryserver.service;
+package com.example.orderqueryserver.service;
 
-import com.exmaple.orderqueryserver.entity.Item;
-import com.exmaple.orderqueryserver.entity.Order;
-import com.exmaple.orderqueryserver.message.NewOrderMessage;
-import com.exmaple.orderqueryserver.repository.OrderQueryRepository;
+import com.example.orderqueryserver.entity.Item;
+import com.example.orderqueryserver.entity.Order;
+import com.example.orderqueryserver.message.NewOrderMessage;
+import com.example.orderqueryserver.repository.OrderQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

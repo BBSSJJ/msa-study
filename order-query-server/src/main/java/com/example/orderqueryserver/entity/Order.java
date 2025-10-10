@@ -1,4 +1,4 @@
-package com.exmaple.orderqueryserver.entity;
+package com.example.orderqueryserver.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

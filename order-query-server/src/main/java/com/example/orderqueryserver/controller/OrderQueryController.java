@@ -1,7 +1,7 @@
-package com.exmaple.orderqueryserver.controller;
+package com.example.orderqueryserver.controller;
 
-import com.exmaple.orderqueryserver.dto.OrderQueryDto;
-import com.exmaple.orderqueryserver.service.OrderQueryService;
+import com.example.orderqueryserver.dto.OrderQueryDto;
+import com.example.orderqueryserver.service.OrderQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

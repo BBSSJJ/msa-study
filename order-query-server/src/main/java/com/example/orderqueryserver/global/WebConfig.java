@@ -1,4 +1,4 @@
-package com.exmaple.orderqueryserver.global;
+package com.example.orderqueryserver.global;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
