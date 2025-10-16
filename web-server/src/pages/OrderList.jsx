@@ -54,11 +54,12 @@ function OrderList() {
           </thead>
           <tbody>
             {orders.map((order, idx) => {
-              const totalQuantity = order.items.reduce(
+              const items = Array.isArray(order?.items) ? order.items : [];
+              const totalQuantity = items.reduce(
                 (sum, i) => sum + i.quantity,
                 0
               );
-              const totalPrice = order.items.reduce(
+              const totalPrice = items.reduce(
                 (sum, i) => sum + i.quantity * i.price,
                 0
               );
@@ -103,7 +104,7 @@ function OrderList() {
                           </tr>
                         </thead>
                         <tbody>
-                          {order.items.map((item, itemIdx) => (
+                          {items.map((item, itemIdx) => (
                             <tr
                               key={itemIdx}
                               style={{

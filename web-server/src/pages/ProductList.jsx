@@ -65,6 +65,8 @@ function ProductList() {
     <Layout>
       <h1 style={{ color: "#fff", marginBottom: "1.5rem" }}>🛍️ 상품 목록</h1>
 
+
+
       {loading ? (
         <p style={{ color: "#aaa" }}>불러오는 중...</p>
       ) : (
