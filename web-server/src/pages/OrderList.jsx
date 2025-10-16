@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 
 const HOST = import.meta.env.VITE_ORDER_COMMAND_SERVER_HOST;
@@ -14,15 +14,7 @@ function OrderList() {
   const extractList = (d) => {
     if (Array.isArray(d)) return d;
     if (!d || typeof d !== "object") return [];
-    const candidates = [
-      d.list,
-      d.items,
-      d.content,
-      d.data?.list,
-      d.data?.items,
-      d.data,
-      d.results,
-    ];
+    const candidates = [d.list, d.items, d.content, d.data?.list, d.data?.items, d.data, d.results];
     for (const c of candidates) if (Array.isArray(c)) return c;
     return [];
   };
@@ -37,7 +29,7 @@ function OrderList() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("API ?몄텧 ?ㅽ뙣:", err);
+        console.error("API 호출 실패:", err);
         setLoading(false);
       });
   }, []);
@@ -46,102 +38,78 @@ function OrderList() {
 
   return (
     <Layout>
-      <h1 style={{ marginBottom: "1.5rem" }}>?벀 二쇰Ц 紐⑸줉</h1>
+      <h1 style={{ marginBottom: "1.5rem" }}>주문 목록</h1>
 
       {elapsedTime !== null && (
-        <p style={{ margin: 0, marginBottom: "1rem", color: "#9aa0a6" }}>
-          ?쒕쾭 泥섎━ ?쒓컙: <span style={{ color: "#e8eaed" }}>{elapsedTime}</span> ms
-          <span style={{ float: "right", color: "#e8eaed" }}>총 {safeOrders.length}건</span>
-        </p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "1rem",
+            color: "#9aa0a6",
+          }}
+        >
+          <span>
+            서버 처리 시간: <span style={{ color: "#e8eaed" }}>{elapsedTime}</span> ms
+          </span>
+          <span style={{ color: "#e8eaed" }}>총 {safeOrders.length}건</span>
+        </div>
       )}
 
       {loading ? (
-        <p style={{ color: "#aaa" }}>遺덈윭?ㅻ뒗 以?..</p>
+        <p style={{ color: "#aaa" }}>불러오는 중...</p>
       ) : safeOrders.length === 0 ? (
-        <p style={{ color: "#bbb" }}>二쇰Ц???놁뒿?덈떎.</p>
+        <p style={{ color: "#bbb" }}>주문이 없습니다.</p>
       ) : (
-        <table
-          style={{ width: "100%", borderCollapse: "collapse", color: "#eee" }}
-        >
+        <table style={{ width: "100%", borderCollapse: "collapse", color: "#eee" }}>
           <thead>
             <tr style={{ backgroundColor: "#2c2c2c" }}>
-              <th style={thStyle}>二쇰Ц ID</th>
-              <th style={thStyle}>?ъ슜??/th>
-              <th style={thStyle}>二쇰Ц??/th>
-              <th style={thStyle}>?곹뭹 媛쒖닔</th>
-              <th style={thStyle}>珥?媛寃?/th>
+              <th style={thStyle}>주문 ID</th>
+              <th style={thStyle}>사용자</th>
+              <th style={thStyle}>주문일시</th>
+              <th style={thStyle}>상품 개수</th>
+              <th style={thStyle}>총 금액</th>
             </tr>
           </thead>
           <tbody>
             {safeOrders.map((order, idx) => {
               const items = Array.isArray(order?.items) ? order.items : [];
-              const totalQuantity = items.reduce(
-                (sum, i) => sum + i.quantity,
-                0
-              );
-              const totalPrice = items.reduce(
-                (sum, i) => sum + i.quantity * i.price,
-                0
-              );
+              const totalQuantity = items.reduce((sum, i) => sum + i.quantity, 0);
+              const totalPrice = items.reduce((sum, i) => sum + i.quantity * i.price, 0);
 
               return (
                 <React.Fragment key={order.orderId}>
-                  <tr
-                    style={{
-                      backgroundColor: idx % 2 === 0 ? "#262626" : "#1e1e1e",
-                    }}
-                  >
+                  <tr style={{ backgroundColor: idx % 2 === 0 ? "#262626" : "#1e1e1e" }}>
                     <td style={tdStyle}>{order.orderId}</td>
                     <td style={tdStyle}>
                       {order.userName} ({order.userId})
                     </td>
-                    <td style={tdStyle}>
-                      {new Date(order.createdAt).toLocaleString()}
-                    </td>
-                    <td style={tdStyle}>{totalQuantity}媛?/td>
-                    <td style={tdStyle}>{totalPrice.toLocaleString()}??/td>
+                    <td style={tdStyle}>{new Date(order.createdAt).toLocaleString()}</td>
+                    <td style={tdStyle}>{totalQuantity}</td>
+                    <td style={tdStyle}>{totalPrice.toLocaleString()}원</td>
                   </tr>
 
                   <tr>
-                    <td
-                      colSpan="5"
-                      style={{ padding: 0, backgroundColor: "#1b1b1b" }}
-                    >
-                      <table
-                        style={{
-                          width: "100%",
-                          borderCollapse: "collapse",
-                          margin: 0,
-                        }}
-                      >
+                    <td colSpan="5" style={{ padding: 0, backgroundColor: "#1b1b1b" }}>
+                      <table style={{ width: "100%", borderCollapse: "collapse", margin: 0 }}>
                         <thead>
                           <tr style={{ backgroundColor: "#333" }}>
-                            <th style={subThStyle}>?곹뭹 ID</th>
-                            <th style={subThStyle}>?곹뭹紐?/th>
-                            <th style={subThStyle}>?섎웾</th>
-                            <th style={subThStyle}>媛寃?/th>
-                            <th style={subThStyle}>?⑷퀎</th>
+                            <th style={subThStyle}>상품 ID</th>
+                            <th style={subThStyle}>상품명</th>
+                            <th style={subThStyle}>수량</th>
+                            <th style={subThStyle}>가격</th>
+                            <th style={subThStyle}>소계</th>
                           </tr>
                         </thead>
                         <tbody>
                           {items.map((item, itemIdx) => (
-                            <tr
-                              key={itemIdx}
-                              style={{
-                                backgroundColor:
-                                  itemIdx % 2 === 0 ? "#222" : "#191919",
-                              }}
-                            >
+                            <tr key={itemIdx} style={{ backgroundColor: itemIdx % 2 === 0 ? "#222" : "#191919" }}>
                               <td style={subTdStyle}>{item.productId}</td>
                               <td style={subTdStyle}>{item.productName}</td>
                               <td style={subTdStyle}>{item.quantity}</td>
-                              <td style={subTdStyle}>
-                                {item.price.toLocaleString()}??
-                              </td>
-                              <td style={subTdStyle}>
-                                {(item.quantity * item.price).toLocaleString()}
-                                ??
-                              </td>
+                              <td style={subTdStyle}>{item.price.toLocaleString()}원</td>
+                              <td style={subTdStyle}>{(item.quantity * item.price).toLocaleString()}원</td>
                             </tr>
                           ))}
                         </tbody>
