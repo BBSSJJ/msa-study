@@ -15,6 +15,8 @@ FROM nginx:stable-alpine
 
 # 정적 파일 복사
 COPY --from=build /app/dist /usr/share/nginx/html
+# Provide SPA fallback config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # 쿠버네티스에서 헬스체크를 위한 기본 포트
 EXPOSE 80
