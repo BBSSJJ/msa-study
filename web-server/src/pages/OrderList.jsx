@@ -11,11 +11,28 @@ function OrderList() {
   const [elapsedTime, setElapsedTime] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const extractList = (d) => {
+    if (Array.isArray(d)) return d;
+    if (!d || typeof d !== "object") return [];
+    const candidates = [
+      d.list,
+      d.items,
+      d.content,
+      d.data?.list,
+      d.data?.items,
+      d.data,
+      d.results,
+    ];
+    for (const c of candidates) if (Array.isArray(c)) return c;
+    return [];
+  };
+
   useEffect(() => {
     fetch(`${BASE_URL}/api/orders`)
       .then((res) => res.json())
       .then((data) => {
-        setOrders(Array.isArray(data?.list) ? data.list : []);
+        const list = extractList(data);
+        setOrders(list);
         setElapsedTime(typeof data?.elapsedTime === "number" ? data.elapsedTime : null);
         setLoading(false);
       })
@@ -24,6 +41,8 @@ function OrderList() {
         setLoading(false);
       });
   }, []);
+
+  const safeOrders = Array.isArray(orders) ? orders : [];
 
   return (
     <Layout>
@@ -37,7 +56,7 @@ function OrderList() {
 
       {loading ? (
         <p style={{ color: "#aaa" }}>불러오는 중...</p>
-      ) : orders.length === 0 ? (
+      ) : safeOrders.length === 0 ? (
         <p style={{ color: "#bbb" }}>주문이 없습니다.</p>
       ) : (
         <table
@@ -53,7 +72,7 @@ function OrderList() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, idx) => {
+            {safeOrders.map((order, idx) => {
               const items = Array.isArray(order?.items) ? order.items : [];
               const totalQuantity = items.reduce(
                 (sum, i) => sum + i.quantity,
