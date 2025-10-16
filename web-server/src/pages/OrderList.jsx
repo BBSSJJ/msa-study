@@ -8,13 +8,15 @@ const BASE_URL = `http://myapp.order.command:9999`;
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
+  const [elapsedTime, setElapsedTime] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/orders`)
       .then((res) => res.json())
       .then((data) => {
-        setOrders(data);
+        setOrders(Array.isArray(data?.list) ? data.list : []);
+        setElapsedTime(typeof data?.elapsedTime === "number" ? data.elapsedTime : null);
         setLoading(false);
       })
       .catch((err) => {
@@ -26,6 +28,12 @@ function OrderList() {
   return (
     <Layout>
       <h1 style={{ marginBottom: "1.5rem" }}>📦 주문 목록</h1>
+
+      {elapsedTime !== null && (
+        <p style={{ margin: 0, marginBottom: "1rem", color: "#9aa0a6" }}>
+          서버 처리 시간: <span style={{ color: "#e8eaed" }}>{elapsedTime}</span> ms
+        </p>
+      )}
 
       {loading ? (
         <p style={{ color: "#aaa" }}>불러오는 중...</p>

@@ -1,5 +1,6 @@
 package com.exmaple.ordercommandserver.controller;
 
+import com.exmaple.ordercommandserver.dto.ListDto;
 import com.exmaple.ordercommandserver.dto.OrderQueryDto;
 import com.exmaple.ordercommandserver.service.OrderQueryService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class OrderQueryController {
     private final OrderQueryService orderQueryService;
 
     @GetMapping()
-    ResponseEntity<List<OrderQueryDto>> getAllOrders() {
+    ResponseEntity<ListDto<OrderQueryDto>> getAllOrders() {
         return ResponseEntity.ok(orderQueryService.getAllOrders());
     }
 
